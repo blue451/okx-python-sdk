@@ -1,6 +1,7 @@
 # okx/async_api/AsyncConvert.py
 from typing import Optional, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class AsyncConvertAPI:
     """
@@ -19,7 +20,16 @@ class AsyncConvertAPI:
         params = {"fromCcy": fromCcy, "toCcy": toCcy}
         return await self._client._request_with_params(GET, GET_CURRENCY_PAIR, params)
 
-    async def estimate_quote(self, baseCcy: str, quoteCcy: str, side: str, rfqSz: str, rfqSzCcy: str, clQReqId: Optional[str] = None, tag: Optional[str] = None) -> Dict[str, Any]:
+    async def estimate_quote(
+        self,
+        baseCcy: str,
+        quoteCcy: str,
+        side: str,
+        rfqSz: str,
+        rfqSzCcy: str,
+        clQReqId: Optional[str] = None,
+        tag: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取闪兑预估报价。"""
         params = {
             "baseCcy": baseCcy,
@@ -34,7 +44,17 @@ class AsyncConvertAPI:
             params["tag"] = tag
         return await self._client._request_with_params(POST, ESTIMATE_QUOTE, params)
 
-    async def convert_trade(self, quoteId: str, baseCcy: str, quoteCcy: str, side: str, sz: str, szCcy: str, clTReqId: Optional[str] = None, tag: Optional[str] = None) -> Dict[str, Any]:
+    async def convert_trade(
+        self,
+        quoteId: str,
+        baseCcy: str,
+        quoteCcy: str,
+        side: str,
+        sz: str,
+        szCcy: str,
+        clTReqId: Optional[str] = None,
+        tag: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """闪兑交易。"""
         params = {
             "quoteId": quoteId,
@@ -50,7 +70,13 @@ class AsyncConvertAPI:
             params["tag"] = tag
         return await self._client._request_with_params(POST, CONVERT_TRADE, params)
 
-    async def get_convert_history(self, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None, tag: Optional[str] = None) -> Dict[str, Any]:
+    async def get_convert_history(
+        self,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+        tag: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取闪兑历史记录。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return await self._client._request_with_params(GET, CONVERT_HISTORY, params)

@@ -1,5 +1,6 @@
 from typing import Optional, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class StatusAPI:
     """

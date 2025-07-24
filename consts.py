@@ -152,6 +152,7 @@ TAKER_FLOW = '/api/v5/rubik/stat/option/taker-block-volume'
 
 # Trade
 PLACE_ORDER = '/api/v5/trade/order'
+PLACR_ORDER = '/api/v5/trade/order' # 保持向后兼容，但这是拼写错误
 BATCH_ORDERS = '/api/v5/trade/batch-orders'
 CANCEL_ORDER = '/api/v5/trade/cancel-order'
 CANCEL_BATCH_ORDERS = '/api/v5/trade/cancel-batch-orders'

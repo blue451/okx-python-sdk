@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Callable, Dict, List, Optional
 
 import websockets
-from okx.ws.factory import WebSocketFactory
+from okxx.ws.factory import WebSocketFactory
 
 logger = logging.getLogger(__name__)
 

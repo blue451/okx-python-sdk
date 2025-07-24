@@ -1,6 +1,7 @@
 # okx/rest/Funding.py
 from typing import Optional, List, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class FundingAPI:
     """
@@ -22,7 +23,9 @@ class FundingAPI:
         params = {"ccy": ccy}
         return self._client._request_with_params(GET, DEPOSIT_ADDRESS, params)
 
-    def transfer_state(self, transId: str, type: Optional[str] = None) -> Dict[str, Any]:
+    def transfer_state(
+        self, transId: str, type: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取资金划转状态。"""
         params = {"transId": transId}
         if type is not None:
@@ -36,7 +39,18 @@ class FundingAPI:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, GET_BALANCES, params)
 
-    def funds_transfer(self, ccy: str, amt: str, from_: str, to: str, type: Optional[str] = None, subAcct: Optional[str] = None, instId: Optional[str] = None, toInstId: Optional[str] = None, loanTrans: Optional[bool] = None) -> Dict[str, Any]:
+    def funds_transfer(
+        self,
+        ccy: str,
+        amt: str,
+        from_: str,
+        to: str,
+        type: Optional[str] = None,
+        subAcct: Optional[str] = None,
+        instId: Optional[str] = None,
+        toInstId: Optional[str] = None,
+        loanTrans: Optional[bool] = None,
+    ) -> Dict[str, Any]:
         """资金划转。"""
         params = {"ccy": ccy, "amt": amt, "from": from_, "to": to}
         if type is not None:
@@ -51,7 +65,17 @@ class FundingAPI:
             params["loanTrans"] = loanTrans
         return self._client._request_with_params(POST, FUNDS_TRANSFER, params)
 
-    def withdrawal(self, ccy: str, amt: str, dest: str, toAddr: str, fee: str, chain: Optional[str] = None, areaCode: Optional[str] = None, clientId: Optional[str] = None) -> Dict[str, Any]:
+    def withdrawal(
+        self,
+        ccy: str,
+        amt: str,
+        dest: str,
+        toAddr: str,
+        fee: str,
+        chain: Optional[str] = None,
+        areaCode: Optional[str] = None,
+        clientId: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """提币。"""
         params = {"ccy": ccy, "amt": amt, "dest": dest, "toAddr": toAddr, "fee": fee}
         if chain is not None:
@@ -62,9 +86,20 @@ class FundingAPI:
             params["clientId"] = clientId
         return self._client._request_with_params(POST, WITHDRAWAL_COIN, params)
 
-    def get_deposit_history(self, ccy: Optional[str] = None, type: Optional[str] = None, state: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None, txId: Optional[str] = None, depId: Optional[str] = None, fromWdId: Optional[str] = None) -> Dict[str, Any]:
+    def get_deposit_history(
+        self,
+        ccy: Optional[str] = None,
+        type: Optional[str] = None,
+        state: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+        txId: Optional[str] = None,
+        depId: Optional[str] = None,
+        fromWdId: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取充值历史。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, DEPOSIT_HISTORY, params)
 
     def get_currencies(self, ccy: Optional[str] = None) -> Dict[str, Any]:
@@ -74,24 +109,37 @@ class FundingAPI:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, CURRENCY_INFO, params)
 
-    def purchase_redempt(self, ccy: str, amt: str, side: str, rate: str) -> Dict[str, Any]:
+    def purchase_redempt(
+        self, ccy: str, amt: str, side: str, rate: str
+    ) -> Dict[str, Any]:
         """余币宝申购/赎回。"""
         params = {"ccy": ccy, "amt": amt, "side": side, "rate": rate}
         return self._client._request_with_params(POST, PURCHASE_REDEMPT, params)
 
-    def get_bills(self, ccy: Optional[str] = None, type: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_bills(
+        self,
+        ccy: Optional[str] = None,
+        type: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取资金流水。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, BILLS_INFO, params)
 
-    def get_deposit_lightning(self, ccy: str, amt: str, to: Optional[str] = None) -> Dict[str, Any]:
+    def get_deposit_lightning(
+        self, ccy: str, amt: str, to: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取闪电网络充值信息。"""
         params = {"ccy": ccy, "amt": amt}
         if to is not None:
             params["to"] = to
         return self._client._request_with_params(GET, DEPOSIT_LIGHTNING, params)
 
-    def withdrawal_lightning(self, ccy: str, invoice: str, memo: Optional[str] = None) -> Dict[str, Any]:
+    def withdrawal_lightning(
+        self, ccy: str, invoice: str, memo: Optional[str] = None
+    ) -> Dict[str, Any]:
         """闪电网络提币。"""
         params = {"ccy": ccy, "invoice": invoice}
         if memo is not None:
@@ -115,12 +163,32 @@ class FundingAPI:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, ASSET_VALUATION, params)
 
-    def get_deposit_withdraw_status(self, wdId: Optional[str] = None, txId: Optional[str] = None, ccy: Optional[str] = None, to: Optional[str] = None, chain: Optional[str] = None) -> Dict[str, Any]:
+    def get_deposit_withdraw_status(
+        self,
+        wdId: Optional[str] = None,
+        txId: Optional[str] = None,
+        ccy: Optional[str] = None,
+        to: Optional[str] = None,
+        chain: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取充提状态。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
-        return self._client._request_with_params(GET, GET_DEPOSIT_WITHDRAW_STATUS, params)
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
+        return self._client._request_with_params(
+            GET, GET_DEPOSIT_WITHDRAW_STATUS, params
+        )
 
-    def get_withdrawal_history(self, ccy: Optional[str] = None, wdId: Optional[str] = None, clientId: Optional[str] = None, txId: Optional[str] = None, type: Optional[str] = None, state: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_withdrawal_history(
+        self,
+        ccy: Optional[str] = None,
+        wdId: Optional[str] = None,
+        clientId: Optional[str] = None,
+        txId: Optional[str] = None,
+        type: Optional[str] = None,
+        state: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取提币历史。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, WITHDRAWAL_HISTORY, params)

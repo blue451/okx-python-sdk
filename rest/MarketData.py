@@ -1,5 +1,5 @@
 from typing import Optional, Dict, Any
-from okx.consts import *
+from okxx.consts import *
 
 
 class MarketAPI:
@@ -15,7 +15,9 @@ class MarketAPI:
         """
         self._client = client
 
-    def get_tickers(self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_tickers(
+        self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取所有产品行情信息。
 
@@ -47,7 +49,9 @@ class MarketAPI:
         params = {"instId": instId}
         return self._client._request_with_params(GET, TICKER_INFO, params)
 
-    def get_index_tickers(self, quoteCcy: Optional[str] = None, instId: Optional[str] = None) -> Dict[str, Any]:
+    def get_index_tickers(
+        self, quoteCcy: Optional[str] = None, instId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取指数行情信息。
 
@@ -81,7 +85,14 @@ class MarketAPI:
             params["sz"] = sz
         return self._client._request_with_params(GET, ORDER_BOOKS, params)
 
-    def get_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取K线数据。
 
@@ -106,7 +117,14 @@ class MarketAPI:
             params["limit"] = limit
         return self._client._request_with_params(GET, MARKET_CANDLES, params)
 
-    def get_history_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_history_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取历史K线数据（仅支持部分币种）。
 
@@ -131,7 +149,14 @@ class MarketAPI:
             params["limit"] = limit
         return self._client._request_with_params(GET, HISTORY_CANDLES, params)
 
-    def get_index_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_index_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取指数K线数据。
 
@@ -156,7 +181,14 @@ class MarketAPI:
             params["limit"] = limit
         return self._client._request_with_params(GET, INDEX_CANDLES, params)
 
-    def get_mark_price_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_mark_price_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取标记价格K线数据。
 
@@ -206,7 +238,15 @@ class MarketAPI:
         """
         return self._client._request_without_params(GET, PLATFORM_24_VOLUME)
 
-    def get_tier(self, instType: Optional[str] = None, tdMode: Optional[str] = None, uly: Optional[str] = None, instId: Optional[str] = None, ccy: Optional[str] = None, tier: Optional[str] = None) -> Dict[str, Any]:
+    def get_tier(
+        self,
+        instType: Optional[str] = None,
+        tdMode: Optional[str] = None,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ccy: Optional[str] = None,
+        tier: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取产品档位信息。
 
@@ -221,7 +261,7 @@ class MarketAPI:
         Returns:
             Dict[str, Any]: API响应数据。
         """
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, TIER, params)
 
     def get_index_components(self, index: str) -> Dict[str, Any]:
@@ -246,7 +286,14 @@ class MarketAPI:
         """
         return self._client._request_without_params(GET, EXCHANGE_RATE)
 
-    def get_history_trades(self, instId: str, type: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_history_trades(
+        self,
+        instId: str,
+        type: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取历史成交数据。
 
@@ -284,7 +331,9 @@ class MarketAPI:
         params = {"instId": instId}
         return self._client._request_with_params(GET, BLOCK_TICKER, params)
 
-    def get_block_tickers(self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_block_tickers(
+        self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取大宗交易所有产品行情信息。
 
@@ -340,4 +389,6 @@ class MarketAPI:
             Dict[str, Any]: API响应数据。
         """
         params = {"instFamily": instFamily}
-        return self._client._request_with_params(GET, GET_OPTION_INSTRUMENT_FAMILY_TRADES, params)
+        return self._client._request_with_params(
+            GET, GET_OPTION_INSTRUMENT_FAMILY_TRADES, params
+        )

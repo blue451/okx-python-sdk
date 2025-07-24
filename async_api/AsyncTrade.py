@@ -1,5 +1,6 @@
 from typing import Optional, List, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class AsyncTradeAPI:
     """
@@ -9,7 +10,26 @@ class AsyncTradeAPI:
     def __init__(self, client):
         self._client = client
 
-    async def place_order(self, instId: str, tdMode: str, side: str, ordType: str, sz: str, ccy: Optional[str] = None, clOrdId: Optional[str] = None, tag: Optional[str] = None, posSide: Optional[str] = None, px: Optional[str] = None, reduceOnly: Optional[bool] = None, tgtCcy: Optional[str] = None, stpMode: Optional[str] = None, attachAlgoOrds: Optional[List[Dict]] = None, pxUsd: Optional[str] = None, pxVol: Optional[str] = None, banAmend: Optional[bool] = None) -> Dict[str, Any]:
+    async def place_order(
+        self,
+        instId: str,
+        tdMode: str,
+        side: str,
+        ordType: str,
+        sz: str,
+        ccy: Optional[str] = None,
+        clOrdId: Optional[str] = None,
+        tag: Optional[str] = None,
+        posSide: Optional[str] = None,
+        px: Optional[str] = None,
+        reduceOnly: Optional[bool] = None,
+        tgtCcy: Optional[str] = None,
+        stpMode: Optional[str] = None,
+        attachAlgoOrds: Optional[List[Dict]] = None,
+        pxUsd: Optional[str] = None,
+        pxVol: Optional[str] = None,
+        banAmend: Optional[bool] = None,
+    ) -> Dict[str, Any]:
         """下单。"""
         params = {
             "instId": instId,
@@ -48,7 +68,9 @@ class AsyncTradeAPI:
         """批量下单。"""
         return await self._client._request_with_params(POST, BATCH_ORDERS, orders_data)
 
-    async def cancel_order(self, instId: str, ordId: Optional[str] = None, clOrdId: Optional[str] = None) -> Dict[str, Any]:
+    async def cancel_order(
+        self, instId: str, ordId: Optional[str] = None, clOrdId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """撤销订单。"""
         params = {"instId": instId}
         if ordId is not None:
@@ -59,9 +81,29 @@ class AsyncTradeAPI:
 
     async def cancel_multiple_orders(self, orders_data: List[Dict]) -> Dict[str, Any]:
         """批量撤销订单。"""
-        return await self._client._request_with_params(POST, CANCEL_BATCH_ORDERS, orders_data)
+        return await self._client._request_with_params(
+            POST, CANCEL_BATCH_ORDERS, orders_data
+        )
 
-    async def amend_order(self, instId: str, cxlOnFail: Optional[bool] = None, ordId: Optional[str] = None, clOrdId: Optional[str] = None, reqId: Optional[str] = None, newSz: Optional[str] = None, newPx: Optional[str] = None, newTpTriggerPx: Optional[str] = None, newTpOrdPx: Optional[str] = None, newSlTriggerPx: Optional[str] = None, newSlOrdPx: Optional[str] = None, newTpTriggerPxType: Optional[str] = None, newSlTriggerPxType: Optional[str] = None, attachAlgoOrds: Optional[List[Dict]] = None, newTriggerPx: Optional[str] = None, newOrdPx: Optional[str] = None) -> Dict[str, Any]:
+    async def amend_order(
+        self,
+        instId: str,
+        cxlOnFail: Optional[bool] = None,
+        ordId: Optional[str] = None,
+        clOrdId: Optional[str] = None,
+        reqId: Optional[str] = None,
+        newSz: Optional[str] = None,
+        newPx: Optional[str] = None,
+        newTpTriggerPx: Optional[str] = None,
+        newTpOrdPx: Optional[str] = None,
+        newSlTriggerPx: Optional[str] = None,
+        newSlOrdPx: Optional[str] = None,
+        newTpTriggerPxType: Optional[str] = None,
+        newSlTriggerPxType: Optional[str] = None,
+        attachAlgoOrds: Optional[List[Dict]] = None,
+        newTriggerPx: Optional[str] = None,
+        newOrdPx: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """修改订单。"""
         params = {"instId": instId}
         if cxlOnFail is not None:
@@ -98,9 +140,20 @@ class AsyncTradeAPI:
 
     async def amend_multiple_orders(self, orders_data: List[Dict]) -> Dict[str, Any]:
         """批量修改订单。"""
-        return await self._client._request_with_params(POST, AMEND_BATCH_ORDER, orders_data)
+        return await self._client._request_with_params(
+            POST, AMEND_BATCH_ORDER, orders_data
+        )
 
-    async def close_positions(self, instId: str, mgnMode: str, posSide: Optional[str] = None, ccy: Optional[str] = None, autoCxl: Optional[bool] = None, clOrdId: Optional[str] = None, tag: Optional[str] = None) -> Dict[str, Any]:
+    async def close_positions(
+        self,
+        instId: str,
+        mgnMode: str,
+        posSide: Optional[str] = None,
+        ccy: Optional[str] = None,
+        autoCxl: Optional[bool] = None,
+        clOrdId: Optional[str] = None,
+        tag: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """平仓。"""
         params = {"instId": instId, "mgnMode": mgnMode}
         if posSide is not None:
@@ -115,7 +168,9 @@ class AsyncTradeAPI:
             params["tag"] = tag
         return await self._client._request_with_params(POST, CLOSE_POSITION, params)
 
-    async def get_order(self, instId: str, ordId: Optional[str] = None, clOrdId: Optional[str] = None) -> Dict[str, Any]:
+    async def get_order(
+        self, instId: str, ordId: Optional[str] = None, clOrdId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取订单信息。"""
         params = {"instId": instId}
         if ordId is not None:
@@ -124,12 +179,36 @@ class AsyncTradeAPI:
             params["clOrdId"] = clOrdId
         return await self._client._request_with_params(GET, ORDER_INFO, params)
 
-    async def get_order_list(self, instType: Optional[str] = None, uly: Optional[str] = None, instId: Optional[str] = None, ordType: Optional[str] = None, state: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    async def get_order_list(
+        self,
+        instType: Optional[str] = None,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ordType: Optional[str] = None,
+        state: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取未完成订单列表。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return await self._client._request_with_params(GET, ORDERS_PENDING, params)
 
-    async def get_orders_history(self, instType: str, uly: Optional[str] = None, instId: Optional[str] = None, ordType: Optional[str] = None, state: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, begin: Optional[str] = None, end: Optional[str] = None, limit: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    async def get_orders_history(
+        self,
+        instType: str,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ordType: Optional[str] = None,
+        state: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        begin: Optional[str] = None,
+        end: Optional[str] = None,
+        limit: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取订单历史（近7天）。"""
         params = {"instType": instType}
         if uly is not None:
@@ -154,7 +233,20 @@ class AsyncTradeAPI:
             params["instFamily"] = instFamily
         return await self._client._request_with_params(GET, ORDERS_HISTORY, params)
 
-    async def get_orders_history_archive(self, instType: str, uly: Optional[str] = None, instId: Optional[str] = None, ordType: Optional[str] = None, state: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, begin: Optional[str] = None, end: Optional[str] = None, limit: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    async def get_orders_history_archive(
+        self,
+        instType: str,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ordType: Optional[str] = None,
+        state: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        begin: Optional[str] = None,
+        end: Optional[str] = None,
+        limit: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取订单历史（近3个月）。"""
         params = {"instType": instType}
         if uly is not None:
@@ -177,14 +269,60 @@ class AsyncTradeAPI:
             params["limit"] = limit
         if instFamily is not None:
             params["instFamily"] = instFamily
-        return await self._client._request_with_params(GET, ORDERS_HISTORY_ARCHIVE, params)
+        return await self._client._request_with_params(
+            GET, ORDERS_HISTORY_ARCHIVE, params
+        )
 
-    async def get_fills(self, instType: Optional[str] = None, uly: Optional[str] = None, instId: Optional[str] = None, ordId: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None, instFamily: Optional[str] = None, begin: Optional[str] = None, end: Optional[str] = None) -> Dict[str, Any]:
+    async def get_fills(
+        self,
+        instType: Optional[str] = None,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ordId: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+        instFamily: Optional[str] = None,
+        begin: Optional[str] = None,
+        end: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取成交明细。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return await self._client._request_with_params(GET, ORDER_FILLS, params)
 
-    async def place_algo_order(self, instId: str, tdMode: str, side: str, ordType: str, sz: str, ccy: Optional[str] = None, posSide: Optional[str] = None, reduceOnly: Optional[bool] = None, tpTriggerPx: Optional[str] = None, tpOrdPx: Optional[str] = None, slTriggerPx: Optional[str] = None, slOrdPx: Optional[str] = None, triggerPx: Optional[str] = None, orderPx: Optional[str] = None, tgtCcy: Optional[str] = None, pxVar: Optional[str] = None, pxSpread: Optional[str] = None, szLimit: Optional[str] = None, pxLimit: Optional[str] = None, timeInterval: Optional[str] = None, tpTriggerPxType: Optional[str] = None, slTriggerPxType: Optional[str] = None, callbackRatio: Optional[str] = None, callbackSpread: Optional[str] = None, activePx: Optional[str] = None, tag: Optional[str] = None, triggerPxType: Optional[str] = None, closeFraction: Optional[str] = None, quickMgnType: Optional[str] = None, algoClOrdId: Optional[str] = None) -> Dict[str, Any]:
+    async def place_algo_order(
+        self,
+        instId: str,
+        tdMode: str,
+        side: str,
+        ordType: str,
+        sz: str,
+        ccy: Optional[str] = None,
+        posSide: Optional[str] = None,
+        reduceOnly: Optional[bool] = None,
+        tpTriggerPx: Optional[str] = None,
+        tpOrdPx: Optional[str] = None,
+        slTriggerPx: Optional[str] = None,
+        slOrdPx: Optional[str] = None,
+        triggerPx: Optional[str] = None,
+        orderPx: Optional[str] = None,
+        tgtCcy: Optional[str] = None,
+        pxVar: Optional[str] = None,
+        pxSpread: Optional[str] = None,
+        szLimit: Optional[str] = None,
+        pxLimit: Optional[str] = None,
+        timeInterval: Optional[str] = None,
+        tpTriggerPxType: Optional[str] = None,
+        slTriggerPxType: Optional[str] = None,
+        callbackRatio: Optional[str] = None,
+        callbackSpread: Optional[str] = None,
+        activePx: Optional[str] = None,
+        tag: Optional[str] = None,
+        triggerPxType: Optional[str] = None,
+        closeFraction: Optional[str] = None,
+        quickMgnType: Optional[str] = None,
+        algoClOrdId: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """下单策略委托。"""
         params = {
             "instId": instId,
@@ -249,12 +387,31 @@ class AsyncTradeAPI:
         """撤销策略委托。"""
         return await self._client._request_with_params(POST, CANCEL_ALGOS, params)
 
-    async def get_algo_order_list(self, ordType: Optional[str] = None, algoId: Optional[str] = None, instType: Optional[str] = None, instId: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_algo_order_list(
+        self,
+        ordType: Optional[str] = None,
+        algoId: Optional[str] = None,
+        instType: Optional[str] = None,
+        instId: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取未完成策略委托列表。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return await self._client._request_with_params(GET, ORDERS_ALGO_PENDING, params)
 
-    async def get_algo_order_history(self, ordType: str, state: Optional[str] = None, algoId: Optional[str] = None, instType: Optional[str] = None, instId: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_algo_order_history(
+        self,
+        ordType: str,
+        state: Optional[str] = None,
+        algoId: Optional[str] = None,
+        instType: Optional[str] = None,
+        instId: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取策略委托历史。"""
         params = {"ordType": ordType}
         if state is not None:
@@ -273,7 +430,17 @@ class AsyncTradeAPI:
             params["limit"] = limit
         return await self._client._request_with_params(GET, ORDERS_ALGO_HISTORY, params)
 
-    async def get_fills_history(self, instType: str, uly: Optional[str] = None, instId: Optional[str] = None, ordId: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    async def get_fills_history(
+        self,
+        instType: str,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ordId: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取成交明细历史。"""
         params = {"instType": instType}
         if uly is not None:
@@ -290,49 +457,89 @@ class AsyncTradeAPI:
             params["limit"] = limit
         if instFamily is not None:
             params["instFamily"] = instFamily
-        return await self._client._request_with_params(GET, ORDERS_FILLS_HISTORY, params)
+        return await self._client._request_with_params(
+            GET, ORDERS_FILLS_HISTORY, params
+        )
 
     async def get_easy_convert_currency_list(self) -> Dict[str, Any]:
         """获取一键兑换币种列表。"""
-        return await self._client._request_without_params(GET, EASY_CONVERT_CURRENCY_LIST)
+        return await self._client._request_without_params(
+            GET, EASY_CONVERT_CURRENCY_LIST
+        )
 
     async def easy_convert(self, fromCcy: List[str], toCcy: str) -> Dict[str, Any]:
         """一键兑换。"""
         params = {"fromCcy": fromCcy, "toCcy": toCcy}
         return await self._client._request_with_params(POST, EASY_CONVERT, params)
 
-    async def get_easy_convert_history(self, before: Optional[str] = None, after: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_easy_convert_history(
+        self,
+        before: Optional[str] = None,
+        after: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取一键兑换历史。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
-        return await self._client._request_with_params(GET, CONVERT_EASY_HISTORY, params)
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
+        return await self._client._request_with_params(
+            GET, CONVERT_EASY_HISTORY, params
+        )
 
-    async def get_oneclick_repay_list(self, debtType: Optional[str] = None) -> Dict[str, Any]:
+    async def get_oneclick_repay_list(
+        self, debtType: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取一键还债币种列表。"""
         params = {}
         if debtType is not None:
             params["debtType"] = debtType
-        return await self._client._request_with_params(GET, ONE_CLICK_REPAY_SUPPORT, params)
+        return await self._client._request_with_params(
+            GET, ONE_CLICK_REPAY_SUPPORT, params
+        )
 
     async def oneclick_repay(self, debtCcy: List[str], repayCcy: str) -> Dict[str, Any]:
         """一键还债。"""
         params = {"debtCcy": debtCcy, "repayCcy": repayCcy}
         return await self._client._request_with_params(POST, ONE_CLICK_REPAY, params)
 
-    async def oneclick_repay_history(self, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def oneclick_repay_history(
+        self,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取一键还债历史。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
-        return await self._client._request_with_params(GET, ONE_CLICK_REPAY_HISTORY, params)
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
+        return await self._client._request_with_params(
+            GET, ONE_CLICK_REPAY_HISTORY, params
+        )
 
-    async def get_algo_order_details(self, algoId: Optional[str] = None, algoClOrdId: Optional[str] = None) -> Dict[str, Any]:
+    async def get_algo_order_details(
+        self, algoId: Optional[str] = None, algoClOrdId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取策略委托详情。"""
         params = {}
         if algoId is not None:
             params["algoId"] = algoId
         if algoClOrdId is not None:
             params["algoClOrdId"] = algoClOrdId
-        return await self._client._request_with_params(GET, GET_ALGO_ORDER_DETAILS, params)
+        return await self._client._request_with_params(
+            GET, GET_ALGO_ORDER_DETAILS, params
+        )
 
-    async def amend_algo_order(self, instId: str, algoId: Optional[str] = None, algoClOrdId: Optional[str] = None, cxlOnFail: Optional[bool] = None, reqId: Optional[str] = None, newSz: Optional[str] = None, newTpTriggerPx: Optional[str] = None, newTpOrdPx: Optional[str] = None, newSlTriggerPx: Optional[str] = None, newSlOrdPx: Optional[str] = None, newTpTriggerPxType: Optional[str] = None, newSlTriggerPxType: Optional[str] = None) -> Dict[str, Any]:
+    async def amend_algo_order(
+        self,
+        instId: str,
+        algoId: Optional[str] = None,
+        algoClOrdId: Optional[str] = None,
+        cxlOnFail: Optional[bool] = None,
+        reqId: Optional[str] = None,
+        newSz: Optional[str] = None,
+        newTpTriggerPx: Optional[str] = None,
+        newTpOrdPx: Optional[str] = None,
+        newSlTriggerPx: Optional[str] = None,
+        newSlOrdPx: Optional[str] = None,
+        newTpTriggerPxType: Optional[str] = None,
+        newSlTriggerPxType: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """修改策略委托。"""
         params = {"instId": instId}
         if algoId is not None:
@@ -361,14 +568,25 @@ class AsyncTradeAPI:
 
     async def get_oneclick_repay_list_v2(self) -> Dict[str, Any]:
         """获取一键还债币种列表V2。"""
-        return await self._client._request_without_params(GET, ONE_CLICK_REPAY_SUPPORT_V2)
+        return await self._client._request_without_params(
+            GET, ONE_CLICK_REPAY_SUPPORT_V2
+        )
 
-    async def oneclick_repay_v2(self, debtCcy: str, repayCcyList: List[str]) -> Dict[str, Any]:
+    async def oneclick_repay_v2(
+        self, debtCcy: str, repayCcyList: List[str]
+    ) -> Dict[str, Any]:
         """一键还债V2。"""
         params = {"debtCcy": debtCcy, "repayCcyList": repayCcyList}
         return await self._client._request_with_params(POST, ONE_CLICK_REPAY_V2, params)
 
-    async def oneclick_repay_history_v2(self, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def oneclick_repay_history_v2(
+        self,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取一键还债历史V2。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
-        return await self._client._request_with_params(GET, ONE_CLICK_REPAY_HISTORY_V2, params)
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
+        return await self._client._request_with_params(
+            GET, ONE_CLICK_REPAY_HISTORY_V2, params
+        )

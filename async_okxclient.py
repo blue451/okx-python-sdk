@@ -4,10 +4,10 @@ import httpx
 from loguru import logger
 from typing import Optional, Dict, Any
 
-from okx import consts as c
-from okx import utils
-from okx import exceptions
-from okx.limiter import AsyncRateLimiterManager  # 导入中央管理器
+from okxx import consts as c
+from okxx import utils
+from okxx import exceptions
+from okxx.limiter import AsyncRateLimiterManager  # 导入中央管理器
 
 
 class AsyncOkxClient:
@@ -178,9 +178,9 @@ class AsyncOkxClient:
         优雅地关闭底层的 httpx.AsyncClient 连接池。
         在程序退出时调用此方法是个好习惯。
         """
-        if hasattr(self, 'client') and self.client:
+        if hasattr(self, "client") and self.client:
             await self.client.aclose()
-    
+
     async def __aenter__(self):
         """异步上下文管理器支持"""
         return self

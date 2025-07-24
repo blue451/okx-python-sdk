@@ -1,6 +1,7 @@
 # okx/rest/CopyTrading.py
 from typing import Optional, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class CopyTradingAPI:
     """
@@ -10,19 +11,38 @@ class CopyTradingAPI:
     def __init__(self, client):
         self._client = client
 
-    def get_existing_leading_positions(self, instId: Optional[str] = None) -> Dict[str, Any]:
+    def get_existing_leading_positions(
+        self, instId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取当前带单仓位。"""
         params = {}
         if instId is not None:
             params["instId"] = instId
-        return self._client._request_with_params(GET, GET_EXISTING_LEADING_POSITIONS, params)
+        return self._client._request_with_params(
+            GET, GET_EXISTING_LEADING_POSITIONS, params
+        )
 
-    def get_leading_position_history(self, instId: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_leading_position_history(
+        self,
+        instId: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取历史带单仓位。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
-        return self._client._request_with_params(GET, GET_LEADING_POSITIONS_HISTORY, params)
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
+        return self._client._request_with_params(
+            GET, GET_LEADING_POSITIONS_HISTORY, params
+        )
 
-    def place_leading_stop_order(self, subPosId: str, tpTriggerPx: Optional[str] = None, slTriggerPx: Optional[str] = None, tpTriggerPxType: Optional[str] = None, slTriggerPxType: Optional[str] = None) -> Dict[str, Any]:
+    def place_leading_stop_order(
+        self,
+        subPosId: str,
+        tpTriggerPx: Optional[str] = None,
+        slTriggerPx: Optional[str] = None,
+        tpTriggerPxType: Optional[str] = None,
+        slTriggerPxType: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """为带单仓位设置止盈止损。"""
         params = {"subPosId": subPosId}
         if tpTriggerPx is not None:
@@ -47,12 +67,21 @@ class CopyTradingAPI:
     def amend_leading_instruments(self, instId: str) -> Dict[str, Any]:
         """修改交易员的带单合约。"""
         params = {"instId": instId}
-        return self._client._request_with_params(POST, AMEND_LEADING_INSTRUMENTS, params)
+        return self._client._request_with_params(
+            POST, AMEND_LEADING_INSTRUMENTS, params
+        )
 
-    def get_profit_sharing_details(self, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_profit_sharing_details(
+        self,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取分润明细。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
-        return self._client._request_with_params(GET, GET_PROFIT_SHARING_DETAILS, params)
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
+        return self._client._request_with_params(
+            GET, GET_PROFIT_SHARING_DETAILS, params
+        )
 
     def get_total_profit_sharing(self) -> Dict[str, Any]:
         """获取总分润。"""
@@ -60,4 +89,6 @@ class CopyTradingAPI:
 
     def get_unrealized_profit_sharing_details(self) -> Dict[str, Any]:
         """获取未实现分润明细。"""
-        return self._client._request_without_params(GET, GET_UNREALIZED_PROFIT_SHARING_DETAILS)
+        return self._client._request_without_params(
+            GET, GET_UNREALIZED_PROFIT_SHARING_DETAILS
+        )

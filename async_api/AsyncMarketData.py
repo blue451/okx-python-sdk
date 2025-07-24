@@ -1,6 +1,7 @@
 # okx/async_api/AsyncMarketData.py
 from typing import Optional, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class AsyncMarketAPI:
     """
@@ -10,7 +11,9 @@ class AsyncMarketAPI:
     def __init__(self, client):
         self._client = client
 
-    async def get_tickers(self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    async def get_tickers(
+        self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取所有产品行情信息。
 
@@ -42,7 +45,9 @@ class AsyncMarketAPI:
         params = {"instId": instId}
         return await self._client._request_with_params(GET, TICKER_INFO, params)
 
-    async def get_index_tickers(self, quoteCcy: Optional[str] = None, instId: Optional[str] = None) -> Dict[str, Any]:
+    async def get_index_tickers(
+        self, quoteCcy: Optional[str] = None, instId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取指数行情信息。
 
@@ -60,7 +65,9 @@ class AsyncMarketAPI:
             params["instId"] = instId
         return await self._client._request_with_params(GET, INDEX_TICKERS, params)
 
-    async def get_orderbook(self, instId: str, sz: Optional[str] = None) -> Dict[str, Any]:
+    async def get_orderbook(
+        self, instId: str, sz: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取产品深度数据。
 
@@ -76,7 +83,14 @@ class AsyncMarketAPI:
             params["sz"] = sz
         return await self._client._request_with_params(GET, ORDER_BOOKS, params)
 
-    async def get_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取K线数据。
 
@@ -101,7 +115,14 @@ class AsyncMarketAPI:
             params["limit"] = limit
         return await self._client._request_with_params(GET, MARKET_CANDLES, params)
 
-    async def get_history_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_history_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取历史K线数据（仅支持部分币种）。
 
@@ -126,7 +147,14 @@ class AsyncMarketAPI:
             params["limit"] = limit
         return await self._client._request_with_params(GET, HISTORY_CANDLES, params)
 
-    async def get_index_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_index_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取指数K线数据。
 
@@ -151,7 +179,14 @@ class AsyncMarketAPI:
             params["limit"] = limit
         return await self._client._request_with_params(GET, INDEX_CANDLES, params)
 
-    async def get_mark_price_candlesticks(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, bar: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_mark_price_candlesticks(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        bar: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取标记价格K线数据。
 
@@ -176,7 +211,9 @@ class AsyncMarketAPI:
             params["limit"] = limit
         return await self._client._request_with_params(GET, MARKPRICE_CANDLES, params)
 
-    async def get_trades(self, instId: str, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_trades(
+        self, instId: str, limit: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取最新成交数据。
 
@@ -201,7 +238,15 @@ class AsyncMarketAPI:
         """
         return await self._client._request_without_params(GET, PLATFORM_24_VOLUME)
 
-    async def get_tier(self, instType: Optional[str] = None, tdMode: Optional[str] = None, uly: Optional[str] = None, instId: Optional[str] = None, ccy: Optional[str] = None, tier: Optional[str] = None) -> Dict[str, Any]:
+    async def get_tier(
+        self,
+        instType: Optional[str] = None,
+        tdMode: Optional[str] = None,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ccy: Optional[str] = None,
+        tier: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取产品档位信息。
 
@@ -216,7 +261,7 @@ class AsyncMarketAPI:
         Returns:
             Dict[str, Any]: API响应数据。
         """
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return await self._client._request_with_params(GET, TIER, params)
 
     async def get_index_components(self, index: str) -> Dict[str, Any]:
@@ -241,7 +286,14 @@ class AsyncMarketAPI:
         """
         return await self._client._request_without_params(GET, EXCHANGE_RATE)
 
-    async def get_history_trades(self, instId: str, type: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    async def get_history_trades(
+        self,
+        instId: str,
+        type: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         获取历史成交数据。
 
@@ -279,7 +331,9 @@ class AsyncMarketAPI:
         params = {"instId": instId}
         return await self._client._request_with_params(GET, BLOCK_TICKER, params)
 
-    async def get_block_tickers(self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    async def get_block_tickers(
+        self, instType: str, uly: Optional[str] = None, instFamily: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         获取大宗交易所有产品行情信息。
 
@@ -335,4 +389,6 @@ class AsyncMarketAPI:
             Dict[str, Any]: API响应数据。
         """
         params = {"instFamily": instFamily}
-        return await self._client._request_with_params(GET, GET_OPTION_INSTRUMENT_FAMILY_TRADES, params)
+        return await self._client._request_with_params(
+            GET, GET_OPTION_INSTRUMENT_FAMILY_TRADES, params
+        )

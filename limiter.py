@@ -7,7 +7,7 @@ from typing import Dict, Any, List
 from loguru import logger
 
 # 导入所有API路径常量
-from okx import consts as c
+from okxx import consts as c
 
 # ==============================================================================
 # 异步限速器 (Async Version)

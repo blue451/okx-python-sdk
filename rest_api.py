@@ -5,69 +5,79 @@ OKX REST API 同步客户端 - 主要入口
 这是推荐的使用方式，包含所有API功能模块。
 
 使用示例:
-    from okx import RestAPI
-    
+    from okxx import RestAPI
+
     # 创建API客户端
     api = RestAPI(
         api_key='your_api_key',
-        api_secret_key='your_secret_key', 
+        api_secret_key='your_secret_key',
         passphrase='your_passphrase',
         flag='1',  # '0'=实盘, '1'=模拟盘
         debug=False  # 开启调试模式
     )
-    
+
     # 账户相关
     balance = api.account.get_account_balance()
     positions = api.account.get_positions()
-    
+
     # 交易相关
     order = api.trade.place_order(
         instId='BTC-USDT',
-        tdMode='cash', 
+        tdMode='cash',
         side='buy',
         ordType='limit',
         sz='0.01',
         px='30000'
     )
-    
+
     # 市场数据
     ticker = api.market_data.get_ticker('BTC-USDT')
-    
+
     # 记得关闭客户端
     api.close()
-    
+
     # 或使用上下文管理器
     with RestAPI(api_key='...', ...) as api:
         balance = api.account.get_account_balance()
 """
 
-from okx.okxclient import OkxClient
-from okx.rest.Account import AccountAPI
-from okx.rest.BlockTrading import BlockTradingAPI
-from okx.rest.Convert import ConvertAPI
-from okx.rest.CopyTrading import CopyTradingAPI
-from okx.rest.FDBroker import FDBrokerAPI
-from okx.rest.Finance import FinanceAPI
-from okx.rest.Funding import FundingAPI
-from okx.rest.Grid import GridAPI
-from okx.rest.MarketData import MarketAPI
-from okx.rest.PublicData import PublicAPI
-from okx.rest.SpreadTrading import SpreadTradingAPI
-from okx.rest.Status import StatusAPI
-from okx.rest.SubAccount import SubAccountAPI
-from okx.rest.Trade import TradeAPI
-from okx.rest.TradingData import TradingDataAPI
+from okxx.okxclient import OkxClient
+from okxx.rest.Account import AccountAPI
+from okxx.rest.BlockTrading import BlockTradingAPI
+from okxx.rest.Convert import ConvertAPI
+from okxx.rest.CopyTrading import CopyTradingAPI
+from okxx.rest.FDBroker import FDBrokerAPI
+from okxx.rest.Finance import FinanceAPI
+from okxx.rest.Funding import FundingAPI
+from okxx.rest.Grid import GridAPI
+from okxx.rest.MarketData import MarketAPI
+from okxx.rest.PublicData import PublicAPI
+from okxx.rest.SpreadTrading import SpreadTradingAPI
+from okxx.rest.Status import StatusAPI
+from okxx.rest.SubAccount import SubAccountAPI
+from okxx.rest.Trade import TradeAPI
+from okxx.rest.TradingData import TradingDataAPI
 
-from okx.consts import API_URL
+from okxx.consts import API_URL
 from typing import Optional
+
 
 class RestAPI:
     """
     OKX Rest API的同步统一入口。
     该类整合了所有独立的API功能模块，并共享一个底层的HTTP客户端实例。
     """
-    def __init__(self, api_key: str = '-1', api_secret_key: str = '-1', passphrase: str = '-1', flag: str = '1',
-                 domain: str = API_URL, debug: bool = False, proxy: Optional[str] = None):
+
+    def __init__(
+        self,
+        api_key: str = "-1",
+        api_secret_key: str = "-1",
+        passphrase: str = "-1",
+        flag: str = "1",
+        domain: str = API_URL,
+        debug: bool = False,
+        proxy: Optional[str] = None,
+    ):
         """
         初始化SDK客户端。
 
@@ -80,7 +90,9 @@ class RestAPI:
         :param proxy: （可选）代理服务器地址，例如 'http://127.0.0.1:7890'。
         """
         # 创建一个共享的底层HTTP请求客户端
-        self._client = OkxClient(api_key, api_secret_key, passphrase, flag, domain, debug, proxy)
+        self._client = OkxClient(
+            api_key, api_secret_key, passphrase, flag, domain, debug, proxy
+        )
 
         # 将各个功能模块实例化为RestAPI的属性
         self.account = AccountAPI(self._client)
@@ -105,7 +117,7 @@ class RestAPI:
         """
         if self._client:
             self._client.close()
-    
+
     def __enter__(self):
         """上下文管理器支持"""
         return self

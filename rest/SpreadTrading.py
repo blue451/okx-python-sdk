@@ -1,5 +1,6 @@
 from typing import Optional, List, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class SpreadTradingAPI:
     """
@@ -9,7 +10,16 @@ class SpreadTradingAPI:
     def __init__(self, client):
         self._client = client
 
-    def place_order(self, sprdId: str, side: str, ordType: str, sz: str, clOrdId: Optional[str] = None, tag: Optional[str] = None, px: Optional[str] = None) -> Dict[str, Any]:
+    def place_order(
+        self,
+        sprdId: str,
+        side: str,
+        ordType: str,
+        sz: str,
+        clOrdId: Optional[str] = None,
+        tag: Optional[str] = None,
+        px: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """下单价差交易。"""
         params = {
             "sprdId": sprdId,
@@ -25,7 +35,9 @@ class SpreadTradingAPI:
             params["px"] = px
         return self._client._request_with_params(POST, SPREAD_PLACE_ORDER, params)
 
-    def cancel_order(self, ordId: Optional[str] = None, clOrdId: Optional[str] = None) -> Dict[str, Any]:
+    def cancel_order(
+        self, ordId: Optional[str] = None, clOrdId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """取消价差交易订单。"""
         params = {}
         if ordId is not None:
@@ -41,7 +53,9 @@ class SpreadTradingAPI:
             params["sprdId"] = sprdId
         return self._client._request_with_params(POST, SPREAD_CANCEL_ALL_ORDERS, params)
 
-    def get_order_details(self, ordId: Optional[str] = None, clOrdId: Optional[str] = None) -> Dict[str, Any]:
+    def get_order_details(
+        self, ordId: Optional[str] = None, clOrdId: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取价差交易订单详情。"""
         params = {}
         if ordId is not None:
@@ -50,22 +64,56 @@ class SpreadTradingAPI:
             params["clOrdId"] = clOrdId
         return self._client._request_with_params(GET, SPREAD_GET_ORDER_DETAILS, params)
 
-    def get_active_orders(self, sprdId: Optional[str] = None, ordType: Optional[str] = None, state: Optional[str] = None, beginId: Optional[str] = None, endId: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_active_orders(
+        self,
+        sprdId: Optional[str] = None,
+        ordType: Optional[str] = None,
+        state: Optional[str] = None,
+        beginId: Optional[str] = None,
+        endId: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取未完成价差交易订单。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, SPREAD_GET_ACTIVE_ORDERS, params)
 
-    def get_orders_history(self, sprdId: Optional[str] = None, ordType: Optional[str] = None, state: Optional[str] = None, beginId: Optional[str] = None, endId: Optional[str] = None, begin: Optional[str] = None, end: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_orders_history(
+        self,
+        sprdId: Optional[str] = None,
+        ordType: Optional[str] = None,
+        state: Optional[str] = None,
+        beginId: Optional[str] = None,
+        endId: Optional[str] = None,
+        begin: Optional[str] = None,
+        end: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取价差交易历史订单（近7天）。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, SPREAD_GET_ORDERS_HISTORY, params)
 
-    def get_trades(self, sprdId: Optional[str] = None, tradeId: Optional[str] = None, ordId: Optional[str] = None, beginId: Optional[str] = None, endId: Optional[str] = None, begin: Optional[str] = None, end: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def get_trades(
+        self,
+        sprdId: Optional[str] = None,
+        tradeId: Optional[str] = None,
+        ordId: Optional[str] = None,
+        beginId: Optional[str] = None,
+        endId: Optional[str] = None,
+        begin: Optional[str] = None,
+        end: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取价差交易成交明细（近7天）。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, SPREAD_GET_TRADES, params)
 
-    def get_spreads(self, baseCcy: Optional[str] = None, instId: Optional[str] = None, sprdId: Optional[str] = None, state: Optional[str] = None) -> Dict[str, Any]:
+    def get_spreads(
+        self,
+        baseCcy: Optional[str] = None,
+        instId: Optional[str] = None,
+        sprdId: Optional[str] = None,
+        state: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取价差交易产品信息（公共）。"""
         params = {}
         if baseCcy is not None:

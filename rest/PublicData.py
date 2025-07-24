@@ -1,5 +1,6 @@
 from typing import Optional, Dict, Any
-from okx.consts import *
+from okxx.consts import *
+
 
 class PublicAPI:
     """
@@ -10,7 +11,13 @@ class PublicAPI:
     def __init__(self, client):
         self._client = client
 
-    def get_instruments(self, instType: str, uly: Optional[str] = None, instId: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_instruments(
+        self,
+        instType: str,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取交易产品基础信息。"""
         params = {"instType": instType}
         if uly is not None:
@@ -21,7 +28,15 @@ class PublicAPI:
             params["instFamily"] = instFamily
         return self._client._request_with_params(GET, INSTRUMENT_INFO, params)
 
-    def get_delivery_exercise_history(self, instType: str, uly: Optional[str] = None, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_delivery_exercise_history(
+        self,
+        instType: str,
+        uly: Optional[str] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取交割/行权历史。"""
         params = {"instType": instType}
         if uly is not None:
@@ -36,7 +51,13 @@ class PublicAPI:
             params["instFamily"] = instFamily
         return self._client._request_with_params(GET, DELIVERY_EXERCISE, params)
 
-    def get_open_interest(self, instType: str, uly: Optional[str] = None, instId: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_open_interest(
+        self,
+        instType: str,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取合约/期权全量持仓信息。"""
         params = {"instType": instType}
         if uly is not None:
@@ -52,7 +73,13 @@ class PublicAPI:
         params = {"instId": instId}
         return self._client._request_with_params(GET, FUNDING_RATE, params)
 
-    def funding_rate_history(self, instId: str, after: Optional[str] = None, before: Optional[str] = None, limit: Optional[str] = None) -> Dict[str, Any]:
+    def funding_rate_history(
+        self,
+        instId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取合约资金费率历史。"""
         params = {"instId": instId}
         if after is not None:
@@ -68,7 +95,12 @@ class PublicAPI:
         params = {"instId": instId}
         return self._client._request_with_params(GET, PRICE_LIMIT, params)
 
-    def get_opt_summary(self, uly: Optional[str] = None, expTime: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_opt_summary(
+        self,
+        uly: Optional[str] = None,
+        expTime: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取期权公共成交数据。"""
         params = {}
         if uly is not None:
@@ -95,7 +127,13 @@ class PublicAPI:
         """获取系统时间。"""
         return self._client._request_without_params(GET, SYSTEM_TIME)
 
-    def get_mark_price(self, instType: str, uly: Optional[str] = None, instId: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_mark_price(
+        self,
+        instType: str,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取产品标记价格。"""
         params = {"instType": instType}
         if uly is not None:
@@ -106,7 +144,16 @@ class PublicAPI:
             params["instFamily"] = instFamily
         return self._client._request_with_params(GET, MARK_PRICE, params)
 
-    def get_position_tiers(self, instType: str, tdMode: str, uly: Optional[str] = None, instId: Optional[str] = None, ccy: Optional[str] = None, tier: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_position_tiers(
+        self,
+        instType: str,
+        tdMode: str,
+        uly: Optional[str] = None,
+        instId: Optional[str] = None,
+        ccy: Optional[str] = None,
+        tier: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取产品档位信息。"""
         params = {"instType": instType, "tdMode": tdMode}
         if uly is not None:
@@ -136,17 +183,36 @@ class PublicAPI:
             params["instType"] = instType
         return self._client._request_with_params(GET, UNDERLYING, params)
 
-    def get_insurance_fund(self, instType: Optional[str] = None, type: Optional[str] = None, uly: Optional[str] = None, ccy: Optional[str] = None, before: Optional[str] = None, after: Optional[str] = None, limit: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_insurance_fund(
+        self,
+        instType: Optional[str] = None,
+        type: Optional[str] = None,
+        uly: Optional[str] = None,
+        ccy: Optional[str] = None,
+        before: Optional[str] = None,
+        after: Optional[str] = None,
+        limit: Optional[str] = None,
+        instFamily: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取风险准备金余额。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, INSURANCE_FUND, params)
 
-    def get_convert_contract_coin(self, type: Optional[str] = None, instId: Optional[str] = None, sz: Optional[str] = None, px: Optional[str] = None, unit: Optional[str] = None) -> Dict[str, Any]:
+    def get_convert_contract_coin(
+        self,
+        type: Optional[str] = None,
+        instId: Optional[str] = None,
+        sz: Optional[str] = None,
+        px: Optional[str] = None,
+        unit: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取合约币种转换信息。"""
-        params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        params = {k: v for k, v in locals().items() if v is not None and k != "self"}
         return self._client._request_with_params(GET, CONVERT_CONTRACT_COIN, params)
 
-    def get_option_tick_bands(self, instType: Optional[str] = None, instFamily: Optional[str] = None) -> Dict[str, Any]:
+    def get_option_tick_bands(
+        self, instType: Optional[str] = None, instFamily: Optional[str] = None
+    ) -> Dict[str, Any]:
         """获取期权价格限制。"""
         params = {}
         if instType is not None:
@@ -155,7 +221,12 @@ class PublicAPI:
             params["instFamily"] = instFamily
         return self._client._request_with_params(GET, GET_OPTION_TICKBANDS, params)
 
-    def get_option_trades(self, instId: Optional[str] = None, instFamily: Optional[str] = None, optType: Optional[str] = None) -> Dict[str, Any]:
+    def get_option_trades(
+        self,
+        instId: Optional[str] = None,
+        instFamily: Optional[str] = None,
+        optType: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """获取期权最新成交数据。"""
         params = {}
         if instId is not None:
