@@ -14,14 +14,14 @@ class AccountAPI:
     def get_position_risk(self, instType: Optional[str] = None) -> Dict[str, Any]:
         """获取账户的仓位风险信息。"""
         params = {}
-        if instType is not None:
+        if instType:
             params["instType"] = instType
         return self._client._request_with_params(GET, POSITION_RISK, params)
 
     def get_account_balance(self, ccy: Optional[str] = None) -> Dict[str, Any]:
         """获取账户余额信息。"""
         params = {}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, ACCOUNT_INFO, params)
 
@@ -30,9 +30,9 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """获取持仓信息。"""
         params = {}
-        if instType is not None:
+        if instType:
             params["instType"] = instType
-        if instId is not None:
+        if instId:
             params["instId"] = instId
         return self._client._request_with_params(GET, POSITION_INFO, params)
 
@@ -89,11 +89,11 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """设置杠杆倍数。"""
         params = {"lever": lever, "mgnMode": mgnMode}
-        if instId is not None:
+        if instId:
             params["instId"] = instId
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
-        if posSide is not None:
+        if posSide:
             params["posSide"] = posSide
         return self._client._request_with_params(POST, SET_LEVERAGE, params)
 
@@ -106,9 +106,9 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """获取最大可买卖数量。"""
         params = {"instId": instId, "tdMode": tdMode}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
-        if px is not None:
+        if px:
             params["px"] = px
         return self._client._request_with_params(GET, MAX_TRADE_SIZE, params)
 
@@ -169,9 +169,9 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """获取杠杆倍数。"""
         params = {"mgnMode": mgnMode}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
-        if instId is not None:
+        if instId:
             params["instId"] = instId
         return self._client._request_with_params(GET, GET_LEVERAGE, params)
 
@@ -180,7 +180,7 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """获取最大可借币量。"""
         params = {"instId": instId, "mgnMode": mgnMode}
-        if mgnCcy is not None:
+        if mgnCcy:
             params["mgnCcy"] = mgnCcy
         return self._client._request_with_params(GET, MAX_LOAN, params)
 
@@ -194,13 +194,13 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """获取手续费率。"""
         params = {"instType": instType}
-        if instId is not None:
+        if instId:
             params["instId"] = instId
-        if uly is not None:
+        if uly:
             params["uly"] = uly
-        if category is not None:
+        if category:
             params["category"] = category
-        if instFamily is not None:
+        if instFamily:
             params["instFamily"] = instFamily
         return self._client._request_with_params(GET, FEE_RATES, params)
 
@@ -220,7 +220,7 @@ class AccountAPI:
     def get_interest_rate(self, ccy: Optional[str] = None) -> Dict[str, Any]:
         """获取借币利率。"""
         params = {}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, INTEREST_RATE, params)
 
@@ -237,7 +237,7 @@ class AccountAPI:
     def get_max_withdrawal(self, ccy: Optional[str] = None) -> Dict[str, Any]:
         """获取最大可提币量。"""
         params = {}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, MAX_WITHDRAWAL, params)
 
@@ -246,7 +246,7 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """资金借还。"""
         params = {"ccy": ccy, "side": side, "amt": amt}
-        if ordId is not None:
+        if ordId:
             params["ordId"] = ordId
         return self._client._request_with_params(POST, BORROW_REPAY, params)
 
@@ -266,7 +266,7 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """获取尊享借币利率和借币限额。"""
         params = {"type": type}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, INTEREST_LIMITS, params)
 
@@ -299,7 +299,7 @@ class AccountAPI:
     def get_greeks(self, ccy: Optional[str] = None) -> Dict[str, Any]:
         """获取希腊字母。"""
         params = {}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
         return self._client._request_with_params(GET, GREEKS, params)
 
@@ -330,11 +330,11 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """获取账户仓位等级。"""
         params = {}
-        if instType is not None:
+        if instType:
             params["instType"] = instType
-        if uly is not None:
+        if uly:
             params["uly"] = uly
-        if instFamily is not None:
+        if instFamily:
             params["instFamily"] = instFamily
         return self._client._request_with_params(GET, GET_PM_LIMIT, params)
 
@@ -478,7 +478,7 @@ class AccountAPI:
     ) -> Dict[str, Any]:
         """手动续借。"""
         params = {"ordId": ordId}
-        if maxRate is not None:
+        if maxRate:
             params["maxRate"] = maxRate
         return self._client._request_with_params(POST, MANUAL_REBORROW, params)
 
