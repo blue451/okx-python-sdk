@@ -121,11 +121,20 @@ class AsyncAccountAPI:
         instId: str,
         tdMode: str,
         ccy: Optional[str] = None,
-        reduceOnly: Optional[bool] = None,
-        unSpotOffset: Optional[bool] = None,
+        reduceOnly: Optional[str] = None,  # 改为字符串类型
+        unSpotOffset: Optional[str] = None,  # 改为字符串类型
         quickMgnType: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """获取最大可用数量。"""
+        """获取最大可用数量。
+
+        Args:
+            instId: 产品ID，如 BTC-USDT
+            tdMode: 交易模式 cross：全仓 isolated：逐仓 cash：非保证金 spot_isolated：现货逐仓
+            ccy: 保证金币种，适用于逐仓杠杆及合约模式下的全仓杠杆
+            reduceOnly: 是否为只减仓模式，仅适用于币币杠杆 ("true"/"false")
+            unSpotOffset: 现货对冲数量 ("true"/"false")
+            quickMgnType: 一键借币类型 manual：手动，auto_borrow：自动借币，auto_repay：自动还币
+        """
         params = {"instId": instId, "tdMode": tdMode}
         if ccy is not None:
             params["ccy"] = ccy
@@ -143,7 +152,7 @@ class AsyncAccountAPI:
         posSide: str,
         type: str,
         amt: str,
-        loanTrans: Optional[bool] = None,
+        loanTrans: Optional[str] = None,  # 改为字符串类型
     ) -> Dict[str, Any]:
         """增加或减少保证金。"""
         params = {"instId": instId, "posSide": posSide, "type": type, "amt": amt}
@@ -272,9 +281,9 @@ class AsyncAccountAPI:
             params["instType"] = instType
         if inclRealPos is not None:
             params["inclRealPos"] = inclRealPos
-        if spotOffsetType is not None:
+        if spotOffsetType:
             params["spotOffsetType"] = spotOffsetType
-        if simPos is not None:
+        if simPos:
             params["simPos"] = simPos
         return await self._client._request_with_params(POST, SIMULATED_MARGIN, params)
 
@@ -384,7 +393,7 @@ class AsyncAccountAPI:
             POST, SET_RISK_OFFSET_TYPE, params
         )
 
-    async def set_auto_loan(self, autoLoan: bool) -> Dict[str, Any]:
+    async def set_auto_loan(self, autoLoan: str) -> Dict[str, Any]:
         """设置自动借币。"""
         params = {"autoLoan": autoLoan}
         return await self._client._request_with_params(POST, SET_AUTO_LOAN, params)
@@ -421,14 +430,14 @@ class AsyncAccountAPI:
         amt: str,
         maxRate: str,
         term: str,
-        reborrow: Optional[bool] = None,
+        reborrow: Optional[str] = None,
         reborrowRate: Optional[str] = None,
     ) -> Dict[str, Any]:
         """下单定期借款。"""
         params = {"ccy": ccy, "amt": amt, "maxRate": maxRate, "term": term}
         if reborrow is not None:
             params["reborrow"] = reborrow
-        if reborrowRate is not None:
+        if reborrowRate:
             params["reborrowRate"] = reborrowRate
         return await self._client._request_with_params(
             POST, PLACE_BORROWING_ORDER, params
@@ -437,14 +446,14 @@ class AsyncAccountAPI:
     async def amend_fixed_loan_borrowing_order(
         self,
         ordId: str,
-        reborrow: Optional[bool] = None,
+        reborrow: Optional[str] = None,
         renewMaxRate: Optional[str] = None,
     ) -> Dict[str, Any]:
         """修改定期借款订单。"""
         params = {"ordId": ordId}
         if reborrow is not None:
             params["reborrow"] = reborrow
-        if renewMaxRate is not None:
+        if renewMaxRate:
             params["renewMaxRate"] = renewMaxRate
         return await self._client._request_with_params(
             POST, AMEND_BORROWING_ORDER, params
@@ -490,7 +499,7 @@ class AsyncAccountAPI:
             POST, MANUAL_BORROW_REPAY, params
         )
 
-    async def set_auto_repay(self, autoRepay: bool) -> Dict[str, Any]:
+    async def set_auto_repay(self, autoRepay: str) -> Dict[str, Any]:
         """设置自动还款。"""
         params = {"autoRepay": autoRepay}
         return await self._client._request_with_params(POST, SET_AUTO_REPAY, params)

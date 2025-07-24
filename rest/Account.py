@@ -117,19 +117,28 @@ class AccountAPI:
         instId: str,
         tdMode: str,
         ccy: Optional[str] = None,
-        reduceOnly: Optional[bool] = None,
-        unSpotOffset: Optional[bool] = None,
+        reduceOnly: Optional[str] = None,
+        unSpotOffset: Optional[str] = None,
         quickMgnType: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """获取最大可用数量。"""
+        """获取最大可用数量。
+
+        Args:
+            instId: 产品ID，如 BTC-USDT
+            tdMode: 交易模式 cross：全仓 isolated：逐仓 cash：非保证金 spot_isolated：现货逐仓
+            ccy: 保证金币种，适用于逐仓杠杆及合约模式下的全仓杠杆
+            reduceOnly: 是否为只减仓模式，仅适用于币币杠杆 ("true"/"false")
+            unSpotOffset: 现货对冲数量 ("true"/"false")
+            quickMgnType: 一键借币类型 manual：手动，auto_borrow：自动借币，auto_repay：自动还币
+        """
         params = {"instId": instId, "tdMode": tdMode}
-        if ccy is not None:
+        if ccy:
             params["ccy"] = ccy
-        if reduceOnly is not None:
+        if reduceOnly:
             params["reduceOnly"] = reduceOnly
-        if unSpotOffset is not None:
+        if unSpotOffset:
             params["unSpotOffset"] = unSpotOffset
-        if quickMgnType is not None:
+        if quickMgnType:
             params["quickMgnType"] = quickMgnType
         return self._client._request_with_params(GET, MAX_AVAIL_SIZE, params)
 
@@ -139,11 +148,19 @@ class AccountAPI:
         posSide: str,
         type: str,
         amt: str,
-        loanTrans: Optional[bool] = None,
+        loanTrans: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """增加或减少保证金。"""
+        """增加或减少保证金。
+
+        Args:
+            instId: 产品ID
+            posSide: 持仓方向
+            type: 增加或减少保证金
+            amt: 保证金数量
+            loanTrans: 是否支持跨币种保证金模式或组合保证金模式 ("true"/"false")
+        """
         params = {"instId": instId, "posSide": posSide, "type": type, "amt": amt}
-        if loanTrans is not None:
+        if loanTrans:
             params["loanTrans"] = loanTrans
         return self._client._request_with_params(POST, ADJUSTMENT_MARGIN, params)
 
@@ -256,19 +273,26 @@ class AccountAPI:
     def get_simulated_margin(
         self,
         instType: Optional[str] = None,
-        inclRealPos: Optional[bool] = None,
+        inclRealPos: Optional[str] = None,
         spotOffsetType: Optional[str] = None,
         simPos: Optional[List[Dict]] = None,
     ) -> Dict[str, Any]:
-        """获取模拟保证金。"""
+        """获取模拟保证金。
+
+        Args:
+            instType: 产品类型
+            inclRealPos: 是否包含真实持仓 ("true"/"false")
+            spotOffsetType: 现货对冲类型
+            simPos: 模拟持仓列表
+        """
         params = {}
-        if instType is not None:
+        if instType:
             params["instType"] = instType
-        if inclRealPos is not None:
+        if inclRealPos:
             params["inclRealPos"] = inclRealPos
-        if spotOffsetType is not None:
+        if spotOffsetType:
             params["spotOffsetType"] = spotOffsetType
-        if simPos is not None:
+        if simPos:
             params["simPos"] = simPos
         return self._client._request_with_params(POST, SIMULATED_MARGIN, params)
 
@@ -372,7 +396,7 @@ class AccountAPI:
         params = {"type": type}
         return self._client._request_with_params(POST, SET_RISK_OFFSET_TYPE, params)
 
-    def set_auto_loan(self, autoLoan: bool) -> Dict[str, Any]:
+    def set_auto_loan(self, autoLoan: str) -> Dict[str, Any]:
         """设置自动借币。"""
         params = {"autoLoan": autoLoan}
         return self._client._request_with_params(POST, SET_AUTO_LOAN, params)
@@ -409,28 +433,43 @@ class AccountAPI:
         amt: str,
         maxRate: str,
         term: str,
-        reborrow: Optional[bool] = None,
+        reborrow: Optional[str] = None,
         reborrowRate: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """下单定期借款。"""
+        """下单定期借款。
+
+        Args:
+            ccy: 借币币种
+            amt: 借币数量
+            maxRate: 最大利率
+            term: 借币期限
+            reborrow: 是否自动续借 ("true"/"false")
+            reborrowRate: 续借利率
+        """
         params = {"ccy": ccy, "amt": amt, "maxRate": maxRate, "term": term}
-        if reborrow is not None:
+        if reborrow:
             params["reborrow"] = reborrow
-        if reborrowRate is not None:
+        if reborrowRate:
             params["reborrowRate"] = reborrowRate
         return self._client._request_with_params(POST, PLACE_BORROWING_ORDER, params)
 
     def amend_fixed_loan_borrowing_order(
         self,
         ordId: str,
-        reborrow: Optional[bool] = None,
+        reborrow: Optional[str] = None,
         renewMaxRate: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """修改定期借款订单。"""
+        """修改定期借款订单。
+
+        Args:
+            ordId: 订单ID
+            reborrow: 是否自动续借 ("true"/"false")
+            renewMaxRate: 续借最大利率
+        """
         params = {"ordId": ordId}
-        if reborrow is not None:
+        if reborrow:
             params["reborrow"] = reborrow
-        if renewMaxRate is not None:
+        if renewMaxRate:
             params["renewMaxRate"] = renewMaxRate
         return self._client._request_with_params(POST, AMEND_BORROWING_ORDER, params)
 
@@ -466,8 +505,12 @@ class AccountAPI:
         params = {"ccy": ccy, "side": side, "amt": amt}
         return self._client._request_with_params(POST, MANUAL_BORROW_REPAY, params)
 
-    def set_auto_repay(self, autoRepay: bool) -> Dict[str, Any]:
-        """设置自动还款。"""
+    def set_auto_repay(self, autoRepay: str) -> Dict[str, Any]:
+        """设置自动还款。
+
+        Args:
+            autoRepay: 是否自动还款 ("true"/"false")
+        """
         params = {"autoRepay": autoRepay}
         return self._client._request_with_params(POST, SET_AUTO_REPAY, params)
 
